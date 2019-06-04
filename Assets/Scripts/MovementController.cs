@@ -25,6 +25,7 @@ public class MovementController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Cursor.visible = false;
         characterController = GetComponent<CharacterController>();
         cam = Camera.main;
         anim = GetComponent<Animator>();
@@ -39,6 +40,7 @@ public class MovementController : MonoBehaviour
 
         InputDecider();
         MovementManager();
+        GroundCheck();
     }
 
 
@@ -81,15 +83,23 @@ public class MovementController : MonoBehaviour
 
     void MovementManager()
     {
+
         Vector3 moveDirection = desiredMoveDirection * (movementSpeed * Time.deltaTime);
         moveDirection = new Vector3(moveDirection.x, verticalVelocity, moveDirection.z);
         characterController.Move(moveDirection); 
 
+    }
+
+    void GroundCheck()
+    {
         grounded = characterController.isGrounded;
+
         if(grounded)
         {
-            verticalVelocity = -gravity * Time.deltaTime;
+            verticalVelocity = -0.1f;
             anim.SetBool("isGrounded", grounded);
+            anim.SetBool("inAir", false);
+
             if (Input.GetButtonDown("Jump"))
             {
                 anim.SetTrigger("Jump");
@@ -99,6 +109,7 @@ public class MovementController : MonoBehaviour
         else
         {
             anim.SetBool("isGrounded", grounded);
+            anim.SetBool("inAir", true);
 
             verticalVelocity -= gravity * Time.deltaTime;
         }

@@ -53,7 +53,7 @@ public class Dash : MonoBehaviour
                 surface.enabled = true;
                 speed.movementSpeed = 10.0f;
                 speed.gravity = 0.5f;
-                speed.jumpSpeed = 5.0f;
+                speed.jumpSpeed = 8.0f;
             }
         }
     }
